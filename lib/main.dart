@@ -60,6 +60,7 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int nivel = 0;
+  static const double borderRadius = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -69,24 +70,39 @@ class _TaskState extends State<Task> {
         child: Stack(
           children: [
             Container(
-              color: Colors.amber,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius),
+                color: Colors.amber,
+              ),
               height: 140,
             ),
             Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(borderRadius)),
                   height: 100,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        color: Colors.grey,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(borderRadius),
+                              topLeft: Radius.circular(borderRadius)),
+                        ),
                         width: 100,
                         height: 100,
-                        child: Image.network(
-                          widget.imagem,
-                          fit: BoxFit.cover,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(borderRadius),
+                              topLeft: Radius.circular(borderRadius)),
+                          child: Image.network(
+                            widget.imagem,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Column(
@@ -182,7 +198,9 @@ class _TaskState extends State<Task> {
                         child: LinearProgressIndicator(
                           backgroundColor: Colors.amber[300],
                           color: Colors.white,
-                          value: (widget.dificuldade > 0) ? nivel / 10 / widget.dificuldade : 1,
+                          value: (widget.dificuldade > 0)
+                              ? nivel / 10 / widget.dificuldade
+                              : 1,
                         ),
                       ),
                     ),
