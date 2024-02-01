@@ -17,36 +17,36 @@ class Difficulty extends StatelessWidget {
           Icons.star,
           size: 15,
           color: (difficultyLevel >= 1)
-              ? Colors.amber
-              : Colors.amber[100],
+              ? Colors.green
+              : Colors.green[100],
         ),
         Icon(
           Icons.star,
           size: 15,
           color: (difficultyLevel >= 2)
-              ? Colors.amber
-              : Colors.amber[100],
+              ? Colors.green
+              : Colors.green[100],
         ),
         Icon(
           Icons.star,
           size: 15,
           color: (difficultyLevel >= 3)
-              ? Colors.amber
-              : Colors.amber[100],
+              ? Colors.green
+              : Colors.green[100],
         ),
         Icon(
           Icons.star,
           size: 15,
           color: (difficultyLevel >= 4)
-              ? Colors.amber
-              : Colors.amber[100],
+              ? Colors.green
+              : Colors.green[100],
         ),
         Icon(
           Icons.star,
           size: 15,
           color: (difficultyLevel >= 5)
-              ? Colors.amber
-              : Colors.amber[100],
+              ? Colors.green
+              : Colors.green[100],
         ),
       ],
     );

@@ -20,124 +20,122 @@ class _TaskState extends State<Task> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius),
-                color: Colors.green,
-              ),
-              height: 140,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(borderRadius),
+              color: Colors.green,
             ),
-            Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(borderRadius)),
-                  height: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(borderRadius),
-                              topLeft: Radius.circular(borderRadius)),
-                        ),
-                        width: 100,
-                        height: 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(borderRadius),
-                              topLeft: Radius.circular(borderRadius)),
-                          child: Image.network(
-                            widget.imagem,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 190,
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              widget.nome,
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  overflow: TextOverflow.ellipsis),
-                            ),
-                          ),
-                          Difficulty(difficultyLevel: widget.dificuldade,)
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                if (nivel < 10 * widget.dificuldade) {
-                                  nivel++;
-                                }
-                              });
-                              print(nivel);
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.arrow_upward_sharp,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  'Lvl up',
-                                  style: TextStyle(color: Colors.white),
-                                )
-                              ],
-                            )),
-                      )
-                    ],
-                  ),
-                ),
-                Row(
+            height: 140,
+          ),
+          Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(borderRadius)),
+                height: 100,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.green[300],
-                          color: Colors.white,
-                          value: (widget.dificuldade > 0)
-                              ? nivel / 10 / widget.dificuldade
-                              : 1,
+                      decoration: const BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(borderRadius),
+                            topLeft: Radius.circular(borderRadius)),
+                      ),
+                      width: 100,
+                      height: 100,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(borderRadius),
+                            topLeft: Radius.circular(borderRadius)),
+                        child: Image.network(
+                          widget.imagem,
+                          fit: BoxFit.cover,
                         ),
                       ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 190,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            widget.nome,
+                            style: const TextStyle(
+                                fontSize: 22,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ),
+                        Difficulty(difficultyLevel: widget.dificuldade,)
+                      ],
                     ),
                     Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (nivel < 10 * widget.dificuldade) {
+                                nivel++;
+                              }
+                            });
+                            // print(nivel);
+                          },
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_upward_sharp,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                'Lvl up',
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          )),
+                    )
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Nível ' + nivel.toString(),
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
+                      child: LinearProgressIndicator(
+                        backgroundColor: Colors.green[300],
+                        color: Colors.white,
+                        value: (widget.dificuldade > 0)
+                            ? nivel / 10 / widget.dificuldade
+                            : 1,
                       ),
                     ),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Nível $nivel',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }

@@ -15,23 +15,23 @@ class _TelaState extends State<Tela> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
+        leading: const Icon(
           Icons.task_alt_rounded,
           color: Colors.white,
           size: 40,
         ),
-        title: Text(
+        title: const Text(
           'Tarefas:',
           style: TextStyle(color: Colors.white),
         ),
       ),
       body: AnimatedOpacity(
         opacity: opacidade ? 1 : 0,
-        duration: Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 250),
         child: Container(
           color: Colors.green[100],
           child: ListView(
-            children: [
+            children: const [
               Task(5, 'Aprender Flutter',
                   'https://pbs.twimg.com/media/FKNlhKZUcAEd7FY?format=jpg&name=4096x4096'),
               Task(2, 'Meditar',
@@ -48,7 +48,7 @@ class _TelaState extends State<Tela> {
             opacidade = !opacidade;
           });
         },
-        child: Icon(
+        child: const Icon(
           Icons.remove_red_eye_sharp,
           color: Colors.white,
         ),
