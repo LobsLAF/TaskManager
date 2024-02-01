@@ -1,51 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-        useMaterial3: true,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.amber,
-          leading: Container(),
-          title: Text(
-            'Tarefas:',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        body: Container(
-          color: Colors.amber[100],
-          child: ListView(
-            children: [
-              Task(5, 'Aprender Flutter',
-                  'https://pbs.twimg.com/media/FKNlhKZUcAEd7FY?format=jpg&name=4096x4096'),
-              Task(0, 'Meditar',
-                  'https://4.bp.blogspot.com/-9UBNrgGg-tk/VhrDzvW7DdI/AAAAAAAATT8/-QDGNJPh_fw/s1600/2.jpg'),
-              Task(2, 'Andar de Bike',
-                  'https://cdn.brujulabike.com/uploads/images/emtb_bicicleta_electrina_montana.jpg'),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.amber,
-        ),
-      ),
-    );
-  }
-}
+import 'package:todo_list/components/difficulty.dart';
 
 class Task extends StatefulWidget {
   const Task(this.dificuldade, this.nome, this.imagem, {super.key});
@@ -72,7 +26,7 @@ class _TaskState extends State<Task> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(borderRadius),
-                color: Colors.amber,
+                color: Colors.green,
               ),
               height: 140,
             ),
@@ -118,56 +72,20 @@ class _TaskState extends State<Task> {
                                   overflow: TextOverflow.ellipsis),
                             ),
                           ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                size: 15,
-                                color: (widget.dificuldade >= 1)
-                                    ? Colors.amber
-                                    : Colors.amber[100],
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 15,
-                                color: (widget.dificuldade >= 2)
-                                    ? Colors.amber
-                                    : Colors.amber[100],
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 15,
-                                color: (widget.dificuldade >= 3)
-                                    ? Colors.amber
-                                    : Colors.amber[100],
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 15,
-                                color: (widget.dificuldade >= 4)
-                                    ? Colors.amber
-                                    : Colors.amber[100],
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 15,
-                                color: (widget.dificuldade >= 5)
-                                    ? Colors.amber
-                                    : Colors.amber[100],
-                              ),
-                            ],
-                          )
+                          Difficulty(difficultyLevel: widget.dificuldade,)
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.amber,
+                              backgroundColor: Colors.green,
                             ),
                             onPressed: () {
                               setState(() {
-                                nivel++;
+                                if (nivel < 10 * widget.dificuldade) {
+                                  nivel++;
+                                }
                               });
                               print(nivel);
                             },
@@ -196,7 +114,7 @@ class _TaskState extends State<Task> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: LinearProgressIndicator(
-                          backgroundColor: Colors.amber[300],
+                          backgroundColor: Colors.green[300],
                           color: Colors.white,
                           value: (widget.dificuldade > 0)
                               ? nivel / 10 / widget.dificuldade
