@@ -14,6 +14,8 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int nivel = 0;
+  int maestria = 0;
+  Color taskColor = Colors.green;
   static const double borderRadius = 20;
 
   @override
@@ -25,7 +27,7 @@ class _TaskState extends State<Task> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),
-              color: Colors.green,
+              color: taskColor,
             ),
             height: 140,
           ),
@@ -52,7 +54,7 @@ class _TaskState extends State<Task> {
                         borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(borderRadius),
                             topLeft: Radius.circular(borderRadius)),
-                        child: Image.network(
+                        child: Image.asset(
                           widget.imagem,
                           fit: BoxFit.cover,
                         ),
@@ -84,6 +86,17 @@ class _TaskState extends State<Task> {
                             setState(() {
                               if (nivel < 10 * widget.dificuldade) {
                                 nivel++;
+                              } else if (maestria != 3){
+                                nivel = 1;
+                                maestria++;
+
+                                if (maestria == 1) {
+                                  taskColor = Color.fromARGB(255, 208, 147, 117);
+                                } else if (maestria == 2) {
+                                  taskColor = Colors.grey;
+                                } else if (maestria == 3) {
+                                  taskColor = Colors.yellow[700]!;
+                                }
                               }
                             });
                             // print(nivel);

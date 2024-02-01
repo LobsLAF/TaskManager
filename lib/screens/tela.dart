@@ -33,11 +33,11 @@ class _TelaState extends State<Tela> {
           child: ListView(
             children: const [
               Task(5, 'Aprender Flutter',
-                  'https://pbs.twimg.com/media/FKNlhKZUcAEd7FY?format=jpg&name=4096x4096'),
+                  'assets/images/flutter.jpg'),
               Task(2, 'Meditar',
-                  'https://4.bp.blogspot.com/-9UBNrgGg-tk/VhrDzvW7DdI/AAAAAAAATT8/-QDGNJPh_fw/s1600/2.jpg'),
+                  'assets/images/cuja.jpg'),
               Task(2, 'Andar de Bike',
-                  'https://cdn.brujulabike.com/uploads/images/emtb_bicicleta_electrina_montana.jpg'),
+                  'assets/images/bike.webp'),
             ],
           ),
         ),
