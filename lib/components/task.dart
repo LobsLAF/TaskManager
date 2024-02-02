@@ -91,7 +91,7 @@ class _TaskState extends State<Task> {
                                 maestria++;
 
                                 if (maestria == 1) {
-                                  taskColor = Color.fromARGB(255, 208, 147, 117);
+                                  taskColor = const Color.fromARGB(255, 208, 147, 117);
                                 } else if (maestria == 2) {
                                   taskColor = Colors.grey;
                                 } else if (maestria == 3) {

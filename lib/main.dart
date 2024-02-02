@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gerenciador de Tarefas',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
           useMaterial3: true,
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.green,

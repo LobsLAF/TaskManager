@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/components/task.dart';
+import 'package:todo_list/screens/nova_tarefa.dart';
 
 class Tela extends StatefulWidget {
   const Tela({super.key});
@@ -9,8 +10,6 @@ class Tela extends StatefulWidget {
 }
 
 class _TelaState extends State<Tela> {
-  bool opacidade = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,31 +24,28 @@ class _TelaState extends State<Tela> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: AnimatedOpacity(
-        opacity: opacidade ? 1 : 0,
-        duration: const Duration(milliseconds: 250),
-        child: Container(
-          color: Colors.green[100],
-          child: ListView(
-            children: const [
-              Task(5, 'Aprender Flutter',
-                  'assets/images/flutter.jpg'),
-              Task(2, 'Meditar',
-                  'assets/images/cuja.jpg'),
-              Task(2, 'Andar de Bike',
-                  'assets/images/bike.webp'),
-            ],
-          ),
+      body: Container(
+        color: Colors.green[100],
+        child: ListView(
+          children: const [
+            Task(5, 'Aprender Flutter',
+                'assets/images/flutter.jpg'),
+            Task(2, 'Meditar',
+                'assets/images/cuja.jpg'),
+            Task(2, 'Andar de Bike',
+                'assets/images/bike.webp'),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
         onPressed: () {
           setState(() {
-            opacidade = !opacidade;
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const NewTaskForm()));
           });
         },
         child: const Icon(
-          Icons.remove_red_eye_sharp,
+          Icons.add,
           color: Colors.white,
         ),
       ),
