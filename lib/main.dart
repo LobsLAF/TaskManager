@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/data/task_inherited.dart';
 import 'package:todo_list/screens/tela.dart';
 
 void main() {
@@ -14,17 +15,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gerenciador de Tarefas',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-          useMaterial3: true,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.green,
-          ),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Colors.green,
-          ),
-          iconTheme: const IconThemeData(color: Colors.white),
-          ),
-      home: const Tela(),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.green,
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Colors.green,
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      home: TaskInherited(
+        child: const Tela(),
+      ),
     );
   }
 }

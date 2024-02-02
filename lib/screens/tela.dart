@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/components/task.dart';
+import 'package:todo_list/data/task_inherited.dart';
 import 'package:todo_list/screens/nova_tarefa.dart';
 
 class Tela extends StatefulWidget {
@@ -27,21 +28,14 @@ class _TelaState extends State<Tela> {
       body: Container(
         color: Colors.green[100],
         child: ListView(
-          children: const [
-            Task(5, 'Aprender Flutter',
-                'assets/images/flutter.jpg'),
-            Task(2, 'Meditar',
-                'assets/images/cuja.jpg'),
-            Task(2, 'Andar de Bike',
-                'assets/images/bike.webp'),
-          ],
+          children: TaskInherited.of(context).taskList
         ),
       ),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
         onPressed: () {
           setState(() {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const NewTaskForm()));
+            Navigator.push(context, MaterialPageRoute(builder: (newContext) => NewTaskForm(taskContext: context)));
           });
         },
         child: const Icon(

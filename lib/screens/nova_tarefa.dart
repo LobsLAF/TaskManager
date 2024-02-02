@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/data/task_inherited.dart';
 
 class NewTaskForm extends StatefulWidget {
-  const NewTaskForm({super.key});
+  const NewTaskForm({super.key, required this.taskContext});
+
+  final BuildContext taskContext;
 
   @override
   State<NewTaskForm> createState() => _NewTaskFormState();
@@ -147,9 +150,10 @@ class _NewTaskFormState extends State<NewTaskForm> {
                             ElevatedButton.styleFrom(padding: EdgeInsets.zero),
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print(nameController.text);
-                            print(diffController.text);
-                            print(imgController.text);
+                            // print(nameController.text);
+                            // print(diffController.text);
+                            // print(imgController.text);
+                            TaskInherited.of(widget.taskContext).newTask(int.parse(diffController.text), nameController.text, imgController.text);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.green,
