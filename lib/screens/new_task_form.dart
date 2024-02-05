@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/data/task_inherited.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/data/task_list.dart';
 
 class NewTaskForm extends StatefulWidget {
   const NewTaskForm({super.key, required this.taskContext});
@@ -16,6 +17,10 @@ class _NewTaskFormState extends State<NewTaskForm> {
   TextEditingController imgController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
+
+    bool isValid(String? value) {
+    return value != null && value.isEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +58,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (isValid(value)) {
                           return 'Digite um nome para a Tarefa!';
                         }
                         return null;
@@ -74,8 +79,8 @@ class _NewTaskFormState extends State<NewTaskForm> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty ||
-                            int.parse(value) > 5 ||
+                        if (isValid(value) ||
+                            int.parse(value!) > 5 ||
                             int.parse(value) < 0) {
                           return 'Digite uma dificuldade entre 0 e 5!';
                         }
@@ -98,7 +103,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (isValid(value)) {
                           return 'Digite um URL de imagem!';
                         }
                         return null;
@@ -153,7 +158,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                             // print(nameController.text);
                             // print(diffController.text);
                             // print(imgController.text);
-                            TaskInherited.of(widget.taskContext).newTask(int.parse(diffController.text), nameController.text, imgController.text);
+                            Provider.of<TaskList>(context, listen: false).newTask(int.parse(diffController.text), nameController.text, imgController.text);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.green,

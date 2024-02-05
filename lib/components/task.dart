@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/components/difficulty.dart';
 
+// ignore: must_be_immutable
 class Task extends StatefulWidget {
-  const Task(this.dificuldade, this.nome, this.imagem, {super.key});
+  Task(this.dificuldade, this.nome, this.imagem, {super.key});
 
   final String nome;
   final String imagem;
   final int dificuldade;
+
+  int nivel = 0;
+  int maestria = 0;
+  Color taskColor = Colors.green;
+
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
-  int maestria = 0;
-  Color taskColor = Colors.green;
+  bool useNetwork() {
+    return widget.imagem.contains('http');
+  }
+
   static const double borderRadius = 20;
 
   @override
@@ -27,7 +34,7 @@ class _TaskState extends State<Task> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),
-              color: taskColor,
+              color: widget.taskColor,
             ),
             height: 140,
           ),
@@ -54,9 +61,26 @@ class _TaskState extends State<Task> {
                         borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(borderRadius),
                             topLeft: Radius.circular(borderRadius)),
-                        child: Image.asset(
+                        child: useNetwork() ? Image.network(
                           widget.imagem,
                           fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          return const Icon(
+                            Icons.image,
+                            size: 50,
+                          );
+                        },
+                        ) : Image.asset(
+                          widget.imagem,
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          return const Icon(
+                            Icons.image,
+                            size: 50,
+                          );
+                        },
                         ),
                       ),
                     ),
@@ -84,18 +108,18 @@ class _TaskState extends State<Task> {
                           ),
                           onPressed: () {
                             setState(() {
-                              if (nivel < 10 * widget.dificuldade) {
-                                nivel++;
-                              } else if (maestria != 3){
-                                nivel = 1;
-                                maestria++;
+                              if (widget.nivel < 10 * widget.dificuldade) {
+                                widget.nivel++;
+                              } else if (widget.maestria != 3){
+                                widget.nivel = 1;
+                                widget.maestria++;
 
-                                if (maestria == 1) {
-                                  taskColor = const Color.fromARGB(255, 208, 147, 117);
-                                } else if (maestria == 2) {
-                                  taskColor = Colors.grey;
-                                } else if (maestria == 3) {
-                                  taskColor = Colors.yellow[700]!;
+                                if (widget.maestria == 1) {
+                                  widget.taskColor = const Color.fromARGB(255, 208, 147, 117);
+                                } else if (widget.maestria == 2) {
+                                  widget.taskColor = Colors.grey;
+                                } else if (widget.maestria == 3) {
+                                  widget.taskColor = Colors.yellow[700]!;
                                 }
                               }
                             });
@@ -129,7 +153,7 @@ class _TaskState extends State<Task> {
                         backgroundColor: Colors.green[300],
                         color: Colors.white,
                         value: (widget.dificuldade > 0)
-                            ? nivel / 10 / widget.dificuldade
+                            ? widget.nivel / 10 / widget.dificuldade
                             : 1,
                       ),
                     ),
@@ -137,7 +161,7 @@ class _TaskState extends State<Task> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Nível $nivel',
+                      'Nível ${widget.nivel}',
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/components/task.dart';
-import 'package:todo_list/data/task_inherited.dart';
-import 'package:todo_list/screens/nova_tarefa.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/data/task_list.dart';
+import 'package:todo_list/screens/new_task_form.dart';
 
 class Tela extends StatefulWidget {
   const Tela({super.key});
@@ -13,6 +13,7 @@ class Tela extends StatefulWidget {
 class _TelaState extends State<Tela> {
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(
@@ -27,16 +28,26 @@ class _TelaState extends State<Tela> {
       ),
       body: Container(
         color: Colors.green[100],
-        child: ListView(
-          children: TaskInherited.of(context).taskList
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 70, top: 8),
+          child: Column(
+            children: Provider.of<TaskList>(context).taskList,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
         onPressed: () {
-          setState(() {
-            Navigator.push(context, MaterialPageRoute(builder: (newContext) => NewTaskForm(taskContext: context)));
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (newContext) => NewTaskForm(
+                taskContext: context,
+              ),
+            ),
+          ).then((value) => () {
+                setState(() {});
+              });
         },
         child: const Icon(
           Icons.add,

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/data/task_inherited.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/data/task_list.dart';
 import 'package:todo_list/screens/tela.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TaskList(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,9 +31,7 @@ class MyApp extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      home: TaskInherited(
-        child: const Tela(),
-      ),
+      home: const Tela(),
     );
   }
 }
