@@ -67,9 +67,7 @@ class _TelaState extends State<Tela> {
                 taskContext: context,
               ),
             ),
-          ).then((value) => () {
-                setState(() {});
-              });
+          );
         },
         child: const Icon(
           Icons.add,
