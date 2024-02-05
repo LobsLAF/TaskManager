@@ -7,9 +7,6 @@ class TaskList with ChangeNotifier {
     Task(5, 'Aprender Flutter', 'assets/images/flutter.jpg'),
     Task(2, 'Meditar', 'assets/images/cuja.jpg'),
     Task(2, 'Andar de Bike', 'assets/images/bike.webp'),
-    Task(2, 'Andar de Bike', 'assets/images/bike.webp'),
-    Task(2, 'Andar de Bike', 'assets/images/bike.webp'),
-    Task(2, 'Andar de Bike', 'assets/images/bike.webp'),
   ];
 
   List<Task> get taskList => _taskList;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list/components/difficulty.dart';
+import 'package:todo_list/data/player_level.dart';
 
 // ignore: must_be_immutable
 class Task extends StatefulWidget {
@@ -122,6 +124,8 @@ class _TaskState extends State<Task> {
                                   widget.taskColor = Colors.yellow[700]!;
                                 }
                               }
+
+                                Provider.of<PlayerLevel>(context, listen: false).incrementLevel(widget.dificuldade/10);
                             });
                             // print(nivel);
                           },

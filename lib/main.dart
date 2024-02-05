@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_list/data/player_level.dart';
 import 'package:todo_list/data/task_list.dart';
 import 'package:todo_list/screens/tela.dart';
 
@@ -7,7 +8,8 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => TaskList(),
-      child: MyApp(),
+      child: ChangeNotifierProvider(
+          create: (context) => PlayerLevel(), child: const MyApp()),
     ),
   );
 }
