@@ -81,8 +81,8 @@ class _NewTaskFormState extends State<NewTaskForm> {
                       validator: (value) {
                         if (isValid(value) ||
                             int.parse(value!) > 5 ||
-                            int.parse(value) < 0) {
-                          return 'Digite uma dificuldade entre 0 e 5!';
+                            int.parse(value) < 1) {
+                          return 'Digite uma dificuldade entre 1 e 5!';
                         }
                         return null;
                       },

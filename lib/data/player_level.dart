@@ -8,7 +8,7 @@ class PlayerLevel with ChangeNotifier {
 
   void incrementLevel(double value) {
     _level += value;
-    print(_level);
+    // print(_level);
     notifyListeners();
   }
 }

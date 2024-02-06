@@ -36,13 +36,13 @@ class _TelaState extends State<Tela> {
                 child: LinearProgressIndicator(
                   backgroundColor: Colors.green[300],
                   color: Colors.white,
-                  value: Provider.of<PlayerLevel>(context).level/100,
+                  value: Provider.of<PlayerLevel>(context).level/100 % 1,
                 ),
               ),
             ),
             Text(
               'Lvl: ${Provider.of<PlayerLevel>(context).level.round()}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

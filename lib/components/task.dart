@@ -5,13 +5,13 @@ import 'package:todo_list/data/player_level.dart';
 
 // ignore: must_be_immutable
 class Task extends StatefulWidget {
-  Task(this.dificuldade, this.nome, this.imagem, {super.key});
+  Task(this.dificuldade, this.nome, this.imagem, {this.nivel = 0, super.key});
 
   final String nome;
   final String imagem;
   final int dificuldade;
 
-  int nivel = 0;
+  int nivel;
   int maestria = 0;
   Color taskColor = Colors.green;
 
@@ -112,6 +112,7 @@ class _TaskState extends State<Task> {
                             setState(() {
                               if (widget.nivel < 10 * widget.dificuldade) {
                                 widget.nivel++;
+                                Provider.of<PlayerLevel>(context, listen: false).incrementLevel(widget.dificuldade/10);
                               } else if (widget.maestria != 3){
                                 widget.nivel = 1;
                                 widget.maestria++;
@@ -124,8 +125,6 @@ class _TaskState extends State<Task> {
                                   widget.taskColor = Colors.yellow[700]!;
                                 }
                               }
-
-                                Provider.of<PlayerLevel>(context, listen: false).incrementLevel(widget.dificuldade/10);
                             });
                             // print(nivel);
                           },
