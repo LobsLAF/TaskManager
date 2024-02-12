@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_list/data/task_list.dart';
+import 'package:todo_list/components/task.dart';
+import 'package:todo_list/data/task_dao.dart';
 
 class NewTaskForm extends StatefulWidget {
   const NewTaskForm({super.key, required this.taskContext});
@@ -18,7 +18,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
 
   final formKey = GlobalKey<FormState>();
 
-    bool isValid(String? value) {
+  bool isValid(String? value) {
     return value != null && value.isEmpty;
   }
 
@@ -158,7 +158,13 @@ class _NewTaskFormState extends State<NewTaskForm> {
                             // print(nameController.text);
                             // print(diffController.text);
                             // print(imgController.text);
-                            Provider.of<TaskList>(context, listen: false).newTask(int.parse(diffController.text), nameController.text, imgController.text);
+                            TaskDao().save(
+                              Task(
+                                int.parse(diffController.text),
+                                nameController.text,
+                                imgController.text,
+                              ),
+                            );
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.green,

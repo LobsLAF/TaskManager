@@ -18,63 +18,73 @@ class TaskDao {
       '$_lvl INTEGER)';
 
   save(Task tarefa) async {
-    print('Salvando...');
+    //print('Salvando...');
     final Database database = await getDatabase();
     List<Task> itemExists = await find(tarefa.nome);
 
     Map<String, dynamic> taskMap = toMap(tarefa);
 
     if (itemExists.isEmpty) {
-      print('Essa tarefa não existe. Criando...');
+      //print('Essa tarefa não existe. Criando...');
       return await database.insert(_tableName, taskMap);
     } else {
-      print('Essa tarefa existe! Atualizando...');
-      return await database.update(
+      //print('Essa tarefa existe! Atualizando...');
+      await database.update(
         _tableName,
         taskMap,
         where: '$_name = ?',
         whereArgs: [tarefa.nome],
       );
+      //print('Nível da tarefa: ${await getNivel(tarefa.nome)}');
+      //print(toMap(tarefa));
     }
   }
 
   Future<List<Task>> findAll() async {
-    print('Iniciando o findAll()');
+    //print('Iniciando o findAll()');
     final Database database = await getDatabase();
     final List<Map<String, dynamic>> result = await database.query(_tableName);
-    print('Dados encontrados: $result');
+    //print('Dados encontrados: $result');
     return toList(result);
   }
 
   Future<List<Task>> find(String nomeDaTarefa) async {
-    print('Iniciando o find()');
+    //print('Iniciando o find()');
     final Database database = await getDatabase();
     final List<Map<String, dynamic>> result = await database.query(
       _tableName,
       where: '$_name = ?',
       whereArgs: [nomeDaTarefa],
     );
-    print('Encontrado: ${toList(result)}');
+    //print('Encontrado: ${toList(result)}');
     return toList(result);
   }
 
-  delete(String nomeDaTarefa) async {}
+  delete(String nomeDaTarefa) async {
+    //print('Deletando.');
+    final Database database = await getDatabase();
+    database.delete(
+      _tableName,
+      where: '$_name = ?',
+      whereArgs: [nomeDaTarefa],
+    );
+  }
 
   List<Task> toList(List<Map<String, dynamic>> mapList) {
-    print('Convertendo para Lista...');
+    //print('Convertendo para Lista...');
     List<Task> result = [];
 
     for (Map<String, dynamic> linha in mapList) {
-      final Task tarefa = Task(linha[_diff], linha[_name], linha[_img]);
+      final Task tarefa = Task(linha[_diff], linha[_name], linha[_img], nivel: linha[_lvl]);
       result.add(tarefa);
     }
-    print('Lista de tarefas: $result');
+    //print('Lista de tarefas: $result');
 
     return result;
   }
 
   Map<String, Object?> toMap(Task tarefa) {
-    print('Convertendo para map');
+    //print('Convertendo para map');
 
     final Map<String, dynamic> mapa = {};
     mapa[_name] = tarefa.nome;
@@ -83,5 +93,16 @@ class TaskDao {
     mapa[_lvl] = tarefa.nivel;
 
     return mapa;
+  }
+  
+  Future<int> getNivel(String nome) async {
+    List<Task> tasks = await find(nome);
+    Task? task = tasks.firstOrNull;
+
+    if (task != null) {
+      return task.nivel;
+    } else {
+      return -1;
+    }
   }
 }

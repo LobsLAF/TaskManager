@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:todo_list/components/delete_task_dialog.dart';
 import 'package:todo_list/components/difficulty.dart';
-import 'package:todo_list/data/player_level.dart';
+import 'package:todo_list/data/task_dao.dart';
 
 // ignore: must_be_immutable
 class Task extends StatefulWidget {
@@ -14,7 +14,6 @@ class Task extends StatefulWidget {
   int nivel;
   int maestria = 0;
   Color taskColor = Colors.green;
-
 
   @override
   State<Task> createState() => _TaskState();
@@ -36,7 +35,7 @@ class _TaskState extends State<Task> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),
-              color: widget.taskColor,
+              color: getTaskColor(),
             ),
             height: 140,
           ),
@@ -52,7 +51,7 @@ class _TaskState extends State<Task> {
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.green,
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(borderRadius),
                             topLeft: Radius.circular(borderRadius)),
@@ -63,27 +62,29 @@ class _TaskState extends State<Task> {
                         borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(borderRadius),
                             topLeft: Radius.circular(borderRadius)),
-                        child: useNetwork() ? Image.network(
-                          widget.imagem,
-                          fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object error,
-                            StackTrace? stackTrace) {
-                          return const Icon(
-                            Icons.image,
-                            size: 50,
-                          );
-                        },
-                        ) : Image.asset(
-                          widget.imagem,
-                          fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object error,
-                            StackTrace? stackTrace) {
-                          return const Icon(
-                            Icons.image,
-                            size: 50,
-                          );
-                        },
-                        ),
+                        child: useNetwork()
+                            ? Image.network(
+                                widget.imagem,
+                                fit: BoxFit.cover,
+                                errorBuilder: (BuildContext context,
+                                    Object error, StackTrace? stackTrace) {
+                                  return const Icon(
+                                    Icons.image,
+                                    size: 50,
+                                  );
+                                },
+                              )
+                            : Image.asset(
+                                widget.imagem,
+                                fit: BoxFit.cover,
+                                errorBuilder: (BuildContext context,
+                                    Object error, StackTrace? stackTrace) {
+                                  return const Icon(
+                                    Icons.image,
+                                    size: 50,
+                                  );
+                                },
+                              ),
                       ),
                     ),
                     Column(
@@ -95,11 +96,12 @@ class _TaskState extends State<Task> {
                             textAlign: TextAlign.center,
                             widget.nome,
                             style: const TextStyle(
-                                fontSize: 22,
-                                overflow: TextOverflow.ellipsis),
+                                fontSize: 22, overflow: TextOverflow.ellipsis),
                           ),
                         ),
-                        Difficulty(difficultyLevel: widget.dificuldade,)
+                        Difficulty(
+                          difficultyLevel: widget.dificuldade,
+                        )
                       ],
                     ),
                     Padding(
@@ -108,25 +110,20 @@ class _TaskState extends State<Task> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
                           ),
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: ((context) {
+                                return DeleteTaskDialog(widget: widget);
+                              }),
+                            );
+                          },
                           onPressed: () {
                             setState(() {
-                              if (widget.nivel < 10 * widget.dificuldade) {
-                                widget.nivel++;
-                                Provider.of<PlayerLevel>(context, listen: false).incrementLevel(widget.dificuldade/10);
-                              } else if (widget.maestria != 3){
-                                widget.nivel = 1;
-                                widget.maestria++;
-
-                                if (widget.maestria == 1) {
-                                  widget.taskColor = const Color.fromARGB(255, 208, 147, 117);
-                                } else if (widget.maestria == 2) {
-                                  widget.taskColor = Colors.grey;
-                                } else if (widget.maestria == 3) {
-                                  widget.taskColor = Colors.yellow[700]!;
-                                }
-                              }
+                              widget.nivel++;
                             });
                             // print(nivel);
+                            TaskDao().save(widget);
                           },
                           child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -155,9 +152,7 @@ class _TaskState extends State<Task> {
                       child: LinearProgressIndicator(
                         backgroundColor: Colors.green[300],
                         color: Colors.white,
-                        value: (widget.dificuldade > 0)
-                            ? widget.nivel / 10 / widget.dificuldade
-                            : 1,
+                        value: widget.nivel / (widget.dificuldade * 10) % 1,
                       ),
                     ),
                   ),
@@ -178,5 +173,19 @@ class _TaskState extends State<Task> {
         ],
       ),
     );
+  }
+
+  getTaskColor() {
+    int maestria = (widget.nivel / (10 * widget.dificuldade)).floor();
+
+    if (maestria == 0) {
+      return Colors.green;
+    } else if (maestria == 1) {
+      return const Color.fromARGB(255, 208, 147, 117);
+    } else if (maestria == 2) {
+      return Colors.grey;
+    } else if (maestria >= 3) {
+      return Colors.yellow[700]!;
+    }
   }
 }
