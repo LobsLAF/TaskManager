@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:rxdart/rxdart.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_list/components/task.dart';
 import 'package:todo_list/data/database.dart';
@@ -75,7 +78,8 @@ class TaskDao {
     List<Task> result = [];
 
     for (Map<String, dynamic> linha in mapList) {
-      final Task tarefa = Task(linha[_diff], linha[_name], linha[_img], nivel: linha[_lvl]);
+      final Task tarefa =
+          Task(linha[_diff], linha[_name], linha[_img], nivel: linha[_lvl]);
       result.add(tarefa);
     }
     //print('Lista de tarefas: $result');
@@ -94,7 +98,7 @@ class TaskDao {
 
     return mapa;
   }
-  
+
   Future<int> getNivel(String nome) async {
     List<Task> tasks = await find(nome);
     Task? task = tasks.firstOrNull;
@@ -104,5 +108,28 @@ class TaskDao {
     } else {
       return -1;
     }
+  }
+
+  final _tasksStreamController = BehaviorSubject<List<Task>>();
+
+  TaskDao() {
+    create();
+  }
+
+  create() async {
+    _tasksStreamController.add(await findAll());
+
+    final Database database = await getDatabase();
+    database.query(_tableName).asStream().listen((event) async {
+      _tasksStreamController.add(await findAll());
+    });
+  }
+
+  Stream<List<Task>> streamTasks() {
+    return _tasksStreamController.stream;
+  }
+
+  Future<void> dispose() async {
+    await _tasksStreamController.close();
   }
 }

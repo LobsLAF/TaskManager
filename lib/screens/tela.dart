@@ -37,14 +37,13 @@ class _TelaState extends State<Tela> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: FutureBuilder<List<Task>>(
-          future: TaskDao().findAll(),
+      body: StreamBuilder<List<Task>>(
+          stream: TaskDao().streamTasks(),
           builder: (context, snapshot) {
             List<Task>? items = snapshot.data;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
-              case ConnectionState.active:
                 return const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -62,6 +61,7 @@ class _TelaState extends State<Tela> {
                     ],
                   ),
                 );
+              case ConnectionState.active:
               case ConnectionState.done:
                 if (snapshot.hasData && items != null) {
                   if (items.isNotEmpty) {
